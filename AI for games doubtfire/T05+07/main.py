@@ -104,7 +104,7 @@ class PlanetWarsScreenAdapter(object):
 
     def draw(self):
         # draw background
-        #self.bk_sprite.draw()
+        self.bk_sprite.draw()
         # draw planets
         for k, p in self.planets.items():
             self.circle(p.pos, p.radius, color=p.color, filled=True)
@@ -138,7 +138,7 @@ class PlanetWarsScreenAdapter(object):
     def sync_all(self, view_id=0, label_type='num_ships'):
         # todo: only need to update label values and owner colour details of planets
         # recache all planets/fleets
-        if view_id == 0:
+        if view_id is 0:
             planets = self.game.planets
             fleets = self.game.fleets
         else:
@@ -258,10 +258,6 @@ class PlanetWarsWindow(window.Window):
             self.step_label.text = msg
             # Has the game ended? (Should we close?)
             if not self.game.is_alive() or self.game.tick >= self.max_tick:
-                name = self.game.winner.name
-                Result[name] += 1
-                with open("./logs/spike07.txt", 'a') as file:
-                    file.write("Winner {0} || Tally{1}\n".format(name, Result))
                 self.close()
         else:
             self.step_label.text = "---"
@@ -349,15 +345,8 @@ class PlanetWarsWindow(window.Window):
 
 
 if __name__ == '__main__':
-    with open("./logs/spike07.txt",'w') as file:
-        file.write("Results of wins on 100 mpas between Rando and Simple Strategic\n")
-    k = 0
-    while k < 100:
-        gamestate = open('./maps/map5.txt').read()
-        #players = ['Blanko', 'Rando', 'OneMove']
-        players = ['Simple_Strategic', 'Rando']
-        window = PlanetWarsWindow(gamestate=gamestate, players=players, max_game_length=500)
-        app.run()
-        app.exit()
-        #window.game.logger.flush()
-        k += 1
+    gamestate = open('./maps/map5.txt').read()
+     players = ['SimpleTac', 'AggreAI']
+    window = PlanetWarsWindow(gamestate=gamestate, players=players, max_game_length=500)
+    app.run()
+    window.game.logger.flush()

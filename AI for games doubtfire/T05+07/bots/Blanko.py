@@ -47,4 +47,18 @@ There is also a player specific log if you want to leave a message
 
 class Blanko(object):
     def update(self, gameinfo):
-        pass
+        # check if we should attack
+        if gameinfo.my_planets and gameinfo.not_my_planets:
+            if gameinfo.my_fleets:
+                return
+            # select random target and destination
+
+            src = max(gameinfo.my_planets.values(), key=lambda p: p.num_ships)
+            # using an inverse proportional maximum search to determine the planets with max num of ships
+            dest = max(gameinfo.not_my_planets.values(), key=lambda p: 1.0 / (1 + p.num_ships))
+            # launch new fleet if there's enough ships
+            gameinfo.planet_order(src, dest, src.num_ships)
+            gameinfo.log("I'll send %d ships from planet %s to planet %s" % (src.num_ships, src, dest))
+
+            if src.num_ships > 10:
+                gameinfo.planet_order(src, dest, int(src.num_ships * 0.75))
