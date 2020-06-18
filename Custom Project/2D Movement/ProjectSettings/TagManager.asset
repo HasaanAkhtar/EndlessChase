@@ -8,6 +8,7 @@ TagManager:
   - Middle
   - Enemy
   - Cherry
+  - EnemyAI
   layers:
   - Default
   - TransparentFX

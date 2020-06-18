@@ -15,6 +15,7 @@ public class EnemyAI : MonoBehaviour
     int currentpoint = 0;
     bool isEndofPath = false;
     public bool constrainInsideGraph = false;
+    [SerializeField] public Transform respwanPoint;
 
     Seeker seeker;
     Rigidbody2D myrb;
@@ -78,7 +79,15 @@ public class EnemyAI : MonoBehaviour
         {
             EnemySprite.localScale = new Vector3(1f, 1f, 1f);
         }
+
       
     }
-  
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Player"))
+        {
+            collision.transform.position = respwanPoint.position;
+        }
+    }
+
 }

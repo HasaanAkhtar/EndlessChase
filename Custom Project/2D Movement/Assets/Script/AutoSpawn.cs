@@ -21,15 +21,22 @@ public class AutoSpawn : MonoBehaviour
     private void spawnObject()
     {
         GameObject c = Instantiate(cherryPrefab) as GameObject;
-        c.transform.position = new Vector2(Random.Range(screenBounds.x * -2, screenBounds.x*2), Random.Range(-screenBounds.y, screenBounds.y));
+        c.transform.position = new Vector2(Random.Range(-screenBounds.x,screenBounds.x), Random.Range(-screenBounds.y /2 , screenBounds.y));
 
     }
-    IEnumerator cherryObjects()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        while (true)
+        if (other.gameObject.tag == "Player")
         {
-            yield return new WaitForSeconds(respawnTime);
-            spawnObject();
+            cherryObjects();
         }
+    }
+
+    IEnumerator cherryObjects()
+    { 
+        
+        yield return new WaitForSeconds(respawnTime);
+        spawnObject();
+      
     }
 }
